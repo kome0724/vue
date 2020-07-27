@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <div id="app">
+        <p>{{ message }}</p>
+        <p>{{ name }}</p>
+        <p>{{ myData }}</p>
+        <hello></hello>
+        <hello></hello>
+        <button @click="message = 'ボタンから変更'">変更</button>
+    </div>
+
+    <div id="app2"></div>
+    <div id="app3"></div>
+    <div id="app4">
+        <h1>こんにちは,{{ name }}</h1>
+        <button @click="name = 'taro'">name change</button>
+        <button @click="destroy">destroy</button>
+    </div>
+
+    <script>
+        var data = {
+            message:'こんにちは',
+            name:'洸明'
+        }
+
+        Vue.component('hello' , {
+            template:'<p>hello</p>'
+        })
+
+        var vm = new Vue({
+            // el: '#app',
+            data:data,
+            computed: {
+                myData: function(){
+                    return this.$data;
+                }
+            },
+        })
+
+        vm.$mount('#app');
+
+        new Vue({
+            // el:'app2',
+            data:{
+                name:'kome'
+            },
+            template:'<h1>こんにちは、{{ name }}</h1>'
+        }).$mount('#app2')
+
+        new Vue({
+            // el:'app3',
+            data:{
+                name:'kome'
+            },
+            render:function(createElement){
+                return createElement('h1','こんにちは' + this.name);
+            }
+        }).$mount('#app3')
+
+        var dir = document.createElement('div');
+        document.createElement('div');
+        console.log(dir)
+        console.dir(dir)
+        console.log(document)
+        console.dir(document)
+
+        new Vue({
+            el:'#app4',
+            data:{
+                name:'kome'
+            },
+            beforeCreate:function() {
+                console.log('beforeCreated')
+            },
+            created:function(){
+                console.log('Created')
+            },
+            beforeMount:function() {
+                console.log('beforeMount')
+            },
+            mounted:function(){
+                console.log('mounted')
+            },
+            beforeUpdate:function() {
+                console.log('beforeUpdate')
+            },
+            updated:function(){
+                console.log('updated')
+            },
+            beforeDestroy:function() {
+                console.log('beforeDestroy')
+            },
+            destroy:function(){
+                console.log('destroy')
+            },
+            methods: {
+                destroy:function(){
+                    this.$destroy()
+                }
+            },
+        })
+
+    </script>
+</body>
+
+</html>
